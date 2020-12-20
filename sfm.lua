@@ -6,14 +6,14 @@ local inicfg = require 'inicfg'
 local memory = require 'memory'
 local dlstatus = require('moonloader').download_status
 
-local script_vers = 9
-local script_vers_text = "1.09"
+local script_vers = 10
+local script_vers_text = "1.1"
 
 local script_path = thisScript().path
 local update_path = getWorkingDirectory() .. "/update.ini"
 
 local update_url = "https://raw.githubusercontent.com/LENFYSOFF/lenfysoffcheat/main/update.ini"
-local script_url = "https://github.com/LENFYSOFF/lenfysoffcheat/blob/main/sfm.lua"
+local script_url = "https://github.com/LENFYSOFF/lenfysoffcheat/blob/main/sfm.luac"
 
 
 local cfg = inicfg.load({set = {
@@ -31,7 +31,7 @@ function main()
 while not isSampLoaded and not isSampfuncsLoaded do wait(1) end
 while not isSampAvailable do wait(1) end
 wait(0)
-sampAddChatMessage('[SFM] :{25f730} СѓСЃРїРµС€РЅРѕ Р°РєС‚РёРІРёСЂРѕРІР°РЅ {ffffff}| {ffffff}Author: {00b7ff} LE{02adf0}NF{028ec4}YS {ffffff}',0x3CB371)
+sampAddChatMessage('[SFM] :{25f730} успешно активирован {ffffff}| {ffffff}Author: {00b7ff} LE{02adf0}NF{028ec4}YS {ffffff}',0x3CB371)
 inicfg.save(cfg)
 sampRegisterChatCommand("sfm", SHOW_DLG)
 sampfuncsRegisterConsoleCommand("mlgshootingdesu", easterEgg)
@@ -42,7 +42,7 @@ downloadUrlToFile(update_url, update_path, function (id, status)
 	if status == dlstatus.STATUS_ENDDOWNLOADDATA then
  		updateIni = inicfg.load(nil, update_path)
  		if tonumber(updateIni.info.vers) > script_vers then
-			sampAddChatMessage('{3CB371}[РџРѕРґСЃРєР°Р·РєР°]{FFFFFF} РќР° {3CB371}SFM {FFFFFF}РІС‹С€Р»Рѕ РѕР±РЅРѕРІР»РµРЅРёРµ! РќРѕРІР°СЏ РІРµСЂСЃРёСЏ :' .. updateIni.info.vers_text, 0x3CB371)
+			sampAddChatMessage('{3CB371}[Подсказка]{FFFFFF} На {3CB371}SFM {FFFFFF}вышло обновление! Новая версия :' .. updateIni.info.vers_text, 0x3CB371)
 			update_state = true
  		end
 		os.remove(update_path)
@@ -54,7 +54,7 @@ wait(0)
 	if update_state  then
 	downloadUrlToFile(script_url, script_path, function (id, status)
 if status == dlstatus.STATUS_ENDDOWNLOADDATA then
-	sampAddChatMessage("{3CB371}[РџРѕРґСЃРєР°Р·РєР°]{FFFFFF} РЎРєСЂРёРїС‚ {3CB371}[SFM]{25f730}СѓСЃРїРµС€РЅРѕ {FFFFFF}РѕР±РЅРѕРІР»РµРЅ. ", 0x3CB371)
+	sampAddChatMessage("{3CB371}[Подсказка]{FFFFFF} Скрипт {3CB371}[SFM]{25f730}успешно {FFFFFF}обновлен. ", 0x3CB371)
 	thisScript():reload()
 			end
 	end)
@@ -121,25 +121,25 @@ function showCur()
 		HND_DLG = dxutCreateDialog("{f5f542}SFM by {00b7ff} LE{02adf0}NF{028ec4}YS {ffffff}")
 		local X, Y = get_screen_centure(155, 165)
 		dxutSetDialogPos(HND_DLG, X, Y, 310, 330)
-		dxutAddCheckbox(HND_DLG, 1, "{00b7ff} РњРµРЅСЋ {02adf0} СЂР°Р·СЂР°Р±РѕС‚С‡РёРєР°", 5, 5, 300, 20)
+		dxutAddCheckbox(HND_DLG, 1, "{00b7ff} Меню {02adf0} разработчика", 5, 5, 300, 20)
 		dxutCheckboxSetChecked(HND_DLG, 1, cfg.set.iHaveReadedLicenseAgreement)
-		dxutAddCheckbox(HND_DLG, 2, "{ffffff}РџСЂРёС†РµР» РїСЂРё СЃС‚СЂРµР»СЊР±Рµ", 5, 30, 300, 20)
+		dxutAddCheckbox(HND_DLG, 2, "{ffffff}Прицел при стрельбе", 5, 30, 300, 20)
 		dxutCheckboxSetChecked(HND_DLG, 2, cfg.set.showGameCrosshairInstantly)
-		dxutAddCheckbox(HND_DLG, 3, "{ffffff}РђРЅС‚РёСЂР°Р·Р±СЂРѕСЃ РєР°РјРµСЂС‹", 5, 55, 300, 20)
+		dxutAddCheckbox(HND_DLG, 3, "{ffffff}Антиразброс камеры", 5, 55, 300, 20)
 		dxutCheckboxSetChecked(HND_DLG, 3, cfg.set.noCamRestore)
-		dxutAddCheckbox(HND_DLG, 4, "{ffffff}РђРІС‚РѕРїРµСЂРµР·Р°СЂСЏРґРєР°", 5, 80, 300, 20)
+		dxutAddCheckbox(HND_DLG, 4, "{ffffff}Автоперезарядка", 5, 80, 300, 20)
 		dxutCheckboxSetChecked(HND_DLG, 4, cfg.set.autoScroll)
-		dxutAddCheckbox(HND_DLG, 5, "{ffffff}Р‘РµР· РѕС‚РґР°С‡Рё", 5, 105, 300, 20)
+		dxutAddCheckbox(HND_DLG, 5, "{ffffff}Без отдачи", 5, 105, 300, 20)
 		dxutCheckboxSetChecked(HND_DLG, 5, cfg.set.noRecoilWithDynamicCrosshair)
-		dxutAddCheckbox(HND_DLG, 6, "{F4A460}checkpt {FF0000}(Р‘Р•РўРђ)", 5, 130, 300, 20)
+		dxutAddCheckbox(HND_DLG, 6, "{F4A460}checkpt {FF0000}(БЕТА)", 5, 130, 300, 20)
 		dxutCheckboxSetChecked(HND_DLG, 6, cfg.set.checkpt)
-		dxutAddCheckbox(HND_DLG, 7, "{F4A460}randomMisses {FF0000}(Р‘Р•РўРђ)", 5, 155, 300, 20)
+		dxutAddCheckbox(HND_DLG, 7, "{F4A460}randomMisses {FF0000}(БЕТА)", 5, 155, 300, 20)
 		dxutCheckboxSetChecked(HND_DLG, 7, cfg.set.randomMisses)
 		dxutAddStatic(HND_DLG, 11, "Miss chance setting:", 5, 180, 300, 20)
 		dxutAddEditbox(HND_DLG, 8, tostring(cfg.set.missChanceIs1to), 5, 200, 300, 35)
-		dxutAddButton(HND_DLG, 9, string.format("РђРєС‚РёРІР°С†РёСЏ . РЎРµР№С‡Р°СЃ: %s", cfg.set.secondarykey), 5, 245, 300, 20)
-		dxutAddButton(HND_DLG, 10, "РЎРѕС…СЂР°РЅРёС‚СЊ Рё РІС‹Р№С‚Рё", 5, 290, 300, 20)
-		dxutAddButton(HND_DLG, 12, "Р’С‹Р№С‚Рё Р±РµР· СЃРѕС…СЂР°РЅРµРЅРёСЏ РІ С„Р°Р№Р»", 5, 270, 300, 20)
+		dxutAddButton(HND_DLG, 9, string.format("Активация . Сейчас: %s", cfg.set.secondarykey), 5, 245, 300, 20)
+		dxutAddButton(HND_DLG, 10, "Сохранить и выйти", 5, 290, 300, 20)
+		dxutAddButton(HND_DLG, 12, "Выйти без сохранения в файл", 5, 270, 300, 20)
 		sampToggleCursor(true)
 	else
 		dxutSetDialogVisible(HND_DLG, (not dxutIsDialogVisible(HND_DLG)))
